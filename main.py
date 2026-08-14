@@ -1,55 +1,54 @@
 # project: guthub analyzer
-
-import requests
-
-def github_user(username):
-    url = f"https://api.github.com/users/{username}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    
-    return None
-
-def repo_details(username):
-        
-        url = f"https://api.github.com/users/{username}/repos"
-        
-        response = requests.get(url)
-        
-        if response.status_code == 200:
-            return response.json()
-        
-        return []
+from get_api import github_user, repo_details
+from analyzer import repositories_to_dataframe,analyze_repositories
 
 print("="*40)
 print("     GITHUB PROFILE ANALYZER   ")
 print("="*40)
 
+#get github profile
+
 username = input("Enter your username here : ")
 user = github_user(username)
+
+
 
 if user is None:
     print("User not found !!")
     
 else:
-    def user_info():
-        print("========PROFILE========")
-        print("Username:", user["login"])
-        print("Name:", user["name"])
-        print("Bio:", user["bio"])
-        print("Followers:", user["followers"])
-        print("Following:", user["following"])
-        print("Public repositories:", user["public_repos"])
+    print("User: ", user["name"])
+    print("Followers: ", user["followers"])
+    print("repositories:", user["public_repos"])
     
-    user_info()
-    
-    
+    #get repo
+        
     repositories = repo_details(username)
+        
+    # convert data into DataFrame
     
-    print("\n=======REPOSITORIES========")
+    df = repositories_to_dataframe(repositories)
     
-    for repo in repositories:
-        print(repo["name"])
+    #analyze data
     
+    results = analyze_repositories(df)
     
+    #display analysis
+    
+    print("============ANALYSIS=============")
+    
+    print("Total repositories: " ,
+          results["total_repositories"]
+        )
+    
+    print("Top language: " ,
+          results["top_language"]
+        )
+    
+    print("Maximun stars:",
+          results["maximum_stars"]
+        )
+    print("star standard deviation: ",
+          round(results["star_std"])
+        )
     
