@@ -48,7 +48,6 @@ else:
     print("Maximun stars:",
           results["maximum_stars"]
         )
-    print("star standard deviation: ",
+    print("Star standard deviation: ",
           round(results["star_std"])
         )
-    
