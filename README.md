@@ -15,7 +15,7 @@ This project helped me learn and practically apply:
 
 * Fetches public GitHub repositories
 * Analyzes repository languages
-* Displays stars and watchers
+* Displays stars
 * Processes GitHub data using Pandas
 * Performs numerical analysis using NumPy
 
